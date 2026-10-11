@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Syncroot-SI | AI Workspace</title>
+
+<style>
+*{box-sizing:border-box}
+:root{
+--bg:#080511;
+--panel:#100a20;
+--purple:#8b22ff;
+--pink:#ed35f5;
+--text:#f7f2ff;
+--muted:#aaa0d0;
+}
+body{
+margin:0;background:var(--bg);color:var(--text);
+font-family:Arial,sans-serif;
+min-height:100vh;
+}
+button,input,textarea{font:inherit}
+button{cursor:pointer;color:white}
+.app{display:flex;min-height:100vh}
+.sidebar{
+width:245px;flex-shrink:0;padding:22px 15px;
+background:#080714;border-right:1px solid #382052;
+display:flex;flex-direction:column;gap:15px;
+}
+.logo{font-size:23px;font-weight:bold;color:#e7caff}
+.logo span{color:var(--pink)}
+.tagline{font-size:11px;color:var(--muted);margin-top:5px}
+.newchat,.upgrade{
+border:0;border-radius:13px;padding:14px;
+background:linear-gradient(100deg,#7225ff,#e52be9);
+box-shadow:0 0 20px #8b22ff44;
+}
+.label{font-size:12px;color:var(--muted);margin-top:12px}
+.nav{
+border:1px solid transparent;background:transparent;
+padding:12px;text-align:left;border-radius:10px;
+color:#ded4f9;
+}
+.nav:hover,.nav.active{background:#251052;border-color:#6422a2}
+.spacer{flex:1}
+.premium{
+border:1px solid #7626a7;border-radius:16px;
+padding:16px;text-align:center;background:#160b27;
+}
+.premium p{font-size:12px;color:var(--muted);line-height:1.6}
+main{flex:1;min-width:0;padding:22px 4% 35px}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.badge,.outline{
+border:1px solid #6f27a8;border-radius:25px;
+padding:10px 15px;background:#10091f;color:#eee0ff;
+}
+.status{color:#43ffc3}
+.hero{text-align:center;padding:38px 0 22px}
+.orb{
+height:100px;width:100px;margin:0 auto 20px;
+border-radius:50%;
+background:radial-gradient(circle at 30% 25%,#ffb5ff,#b21dff 28%,#3915c6 60%,#08051c 75%);
+box-shadow:0 0 35px #9c20ff, inset 0 0 20px #f6a4ff;
+animation:float 3s ease-in-out infinite;
+}
+@keyframes float{50%{transform:translateY(-9px) scale(1.04)}}
+h1{font-size:clamp(26px,4vw,44px);margin:10px 0}
+.gradient{
+background:linear-gradient(90deg,#ff83e7,#9d4bff);
+-webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.subtitle{color:#c5b7e8;line-height:1.7}
+.quick{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:25px 0 14px}
+.composer{
+border:1px solid #8e30d7;border-radius:20px;
+padding:17px;background:linear-gradient(135deg,#160e2c,#0c0818);
+box-shadow:0 0 22px #6c1bc522;
+}
+textarea{
+width:100%;min-height:90px;resize:vertical;
+border:0;outline:0;background:transparent;color:white;
+}
+.composer-bottom{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.small{
+border:0;background:transparent;color:#cbb8ed;
+padding:8px;font-size:13px;
+}
+.send{
+margin-left:auto;border:0;border-radius:50%;width:44px;height:44px;
+background:linear-gradient(135deg,#9b20ff,#f12ee9);
+font-size:20px;
+}
+.messages{margin:16px 0}
+.message{padding:12px 15px;margin:9px 0;border-radius:13px;line-height:1.6}
+.user{background:#29134a;margin-left:10%}
+.assistant{background:#120c20;border:1px solid #302044;margin-right:10%}
+.cards{
+display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+gap:14px;margin-top:24px;
+}
+.card{
+border:1px solid #392253;border-radius:17px;padding:18px;
+background:linear-gradient(145deg,#110c20,#090711);
+transition:.2s;
+}
+.card:hover{transform:translateY(-4px);border-color:#b33aff}
+.icon{font-size:25px;color:#df80ff}
+.card h3{font-size:17px}
+.card p{font-size:13px;color:#b8acd3;line-height:1.6}
+.card button{border:1px solid #7132a8;border-radius:20px;background:#190c2c;padding:8px 10px;font-size:12px}
+.footer{text-align:center;color:#756b91;font-size:11px;margin-top:30px}
+@media(max-width:760px){
+.sidebar{width:76px;padding:15px 8px}
+.logo{font-size:13px;overflow-wrap:anywhere}
+.tagline,.label,.nav span,.premium,.newchat span{display:none}
+.newchat{text-align:center;font-size:22px;padding:12px 5px}
+.nav{text-align:center;padding:13px 2px;font-size:19px}
+main{padding:17px 12px}
+.cards{grid-template-columns:1fr}
+.hero{padding-top:34px}
+.orb{height:78px;width:78px}
+.topbar{align-items:flex-start}
+.badge,.outline{padding:9px;font-size:11px}
+}
+</style>
+</head>
+
+<body>
+<div class="app">
+
+<aside class="sidebar">
+  <div>
+    <div class="logo">✺ Syncroot<span>-SI</span></div>
+    <div class="tagline">Think + Create + Build</div>
+  </div>
+
+  <button class="newchat" onclick="newChat()">＋ <span>New Chat</span></button>
+
+  <div class="label">FEATURES</div>
+  <button class="nav active" onclick="showSection('Chat')">▣ <span>Chat</span></button>
+  <button class="nav" onclick="showSection('Archived')">▤ <span>Archived</span></button>
+  <button class="nav" onclick="showSection('Library')">▥ <span>Library</span></button>
+
+  <div class="label">WORKSPACES</div>
+  <button class="nav" onclick="showSection('New Project')">⊞ <span>New Project</span></button>
+  <button class="nav" onclick="showSection('Image Generator')">▧ <span>Image</span></button>
+  <button class="nav" onclick="showSection('Presentation')">▣ <span>Presentation</span></button>
+  <button class="nav" onclick="showSection('Files')">▤ <span>Files</span></button>
+
+  <div class="spacer"></div>
+  <div class="premium">
+    <div style="font-size:25px">♛</div>
+    <b>Syncroot Premium</b>
+    <p>Explore your creativity with your AI workspace.</p>
+    <button class="upgrade" onclick="alert('Premium features can be connected later!')">Explore More →</button>
+  </div>
+</aside>
+
+<main>
+  <div class="topbar">
+    <div class="badge"><span class="status">●</span> Syncroot-SI v1.0 ▾</div>
+    <div>
+      <button class="outline" onclick="configure()">⚙ Configuration</button>
+      <button class="outline" onclick="exportChat()">⇧ Export</button>
+    </div>
+  </div>
+
+  <section class="hero">
+    <div class="orb"></div>
+    <h1>Ready to Create <span class="gradient">Something New?</span></h1>
+    <div class="subtitle">Your AI workspace for ideas, productivity and creativity.</div>
+    <div class="subtitle">Chat　+　Create　+　Build　+　Explore</div>
+  </section>
+
+  <div class="quick">
+    <button class="outline" onclick="preset('Help me create an image idea')">▧ Create Image</button>
+    <button class="outline" onclick="preset('Help me brainstorm creative ideas')">♧ Brainstorm</button>
+    <button class="outline" onclick="preset('Help me make a project plan')">▦ Make a Plan</button>
+  </div>
+
+  <div class="composer">
+    <textarea id="prompt" placeholder="✦ Ask Syncroot-SI anything..."></textarea>
+    <div class="composer-bottom">
+      <button class="small" onclick="document.getElementById('file').click()">📎 Attach</button>
+      <input id="file" type="file" hidden onchange="showFile(this)">
+      <button class="small" onclick="configure()">☷ Settings</button>
+      <button class="small" onclick="alert('More options coming soon!')">▦ Options</button>
+      <button class="send" onclick="sendMessage()">➤</button>
+    </div>
+  </div>
+
+  <div id="messages" class="messages"></div>
+
+  <section class="cards">
+    <div class="card">
+      <div class="icon">▧</div>
+      <h3>Image Generator</h3>
+      <p>Create image concepts from your imagination and text prompts.</p>
+      <button onclick="preset('Help me write a detailed image generation prompt')">Create Image →</button>
+    </div>
+    <div class="card">
+      <div class="icon">▣</div>
+      <h3>AI Presentation</h3>
+      <p>Turn your ideas into engaging presentation outlines.</p>
+      <button onclick="preset('Create a presentation outline about ')">Make Slides →</button>
+    </div>
+    <div class="card">
+      <div class="icon">&lt;/&gt;</div>
+      <h3>Dev Assistant</h3>
+      <p>Plan projects, explore code and get programming guidance.</p>
+      <button onclick="preset('Help me write code for ')">Generate Code →</button>
+    </div>
+  </section>
+
+  <div class="footer">SYNCROOT-SI • YOUR CREATIVE WORKSPACE</div>
+</main>
+</div>
+
+<script>
+const promptBox=document.getElementById('prompt');
+const messages=document.getElementById('messages');
+
+function preset(text){
+  promptBox.value=text;
+  promptBox.focus();
+}
+function newChat(){
+  messages.innerHTML='';
+  promptBox.value='';
+  promptBox.focus();
+}
+function addMessage(text,kind){
+  const div=document.createElement('div');
+  div.className='message '+kind;
+  div.textContent=text;
+  messages.appendChild(div);
+}
+function sendMessage(){
+  const text=promptBox.value.trim();
+  if(!text)return;
+  addMessage(text,'user');
+  addMessage(
+    'Your message is ready! Syncroot-SI is currently running in demo mode. Connect an AI API to enable real AI-generated responses.',
+    'assistant'
+  );
+  promptBox.value='';
+}
+function showSection(name){
+  addMessage(name+' workspace selected. This section is part of your Syncroot-SI demo interface.','assistant');
+}
+function configure(){
+  alert('Configuration: Connect an AI provider in a secure backend to enable live AI features.');
+}
+function exportChat(){
+  const content=messages.innerText||'Syncroot-SI workspace';
+  const blob=new Blob([content],{type:'text/plain'});
+  const link=document.createElement('a');
+  link.href=URL.createObjectURL(blob);
+  link.download='syncroot-chat.txt';
+  link.click();
+  URL.revokeObjectURL(link.href);
+}
+function showFile(input){
+  if(input.files.length){
+    addMessage('Selected file: '+input.files[0].name,'assistant');
+  }
+}
+promptBox.addEventListener('keydown',e=>{
+  if(e.key==='Enter'&&!e.shiftKey){
+    e.preventDefault();
+    sendMessage();
+  }
+});
+</script>
+</body>
+</html>
